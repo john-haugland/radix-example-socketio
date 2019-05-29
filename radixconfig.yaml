@@ -3,6 +3,9 @@ kind: RadixApplication
 metadata:
   name: radix-example-socketio
 spec:
+  dnsAppAlias:
+    environment: prod
+    component: server
   environments:
     - name: prod
       build:
