@@ -1,0 +1,16 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: radix-example-socketio
+spec:
+  environments:
+    - name: prod
+      build:
+        from: master
+  components:
+    - name: server
+      src: "."
+      ports:
+       - name: http
+         port: 3000
+      public: true

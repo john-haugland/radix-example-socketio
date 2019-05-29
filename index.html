@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font: 13px Helvetica, Arial;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      form {
+        background: #000;
+        padding: 3px;
+        flex: 0 0 auto;
+      }
+      form input {
+        border: 0;
+        padding: 10px;
+        width: 90%;
+        margin-right: 0.5%;
+      }
+      form button {
+        width: 9%;
+        background: rgb(130, 224, 255);
+        border: none;
+        padding: 10px;
+      }
+      #messages {
+        flex: 1 1 auto;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages li {
+        padding: 5px 10px;
+      }
+      #messages li:nth-child(odd) {
+        background: #eee;
+      }
+
+      #status {
+        flex: 0 0 auto;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      #status.disconnected {
+        background-color: tomato;
+      }
+
+      #status.connected {
+        background-color: forestgreen;
+      }
+
+      #messagebar {
+        display: flex;
+      }
+
+      #m {
+        flex: 1 1 auto;
+      }
+
+      #username {
+        flex: 5 5 auto;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="status" class="disconnected">Disconnected</div>
+    <ul id="messages"></ul>
+    <form id="messagebar" action="">
+      <input id="username" autocomplete="off" />
+      <input id="m" autocomplete="off" />
+      <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function() {
+        var socket = io();
+
+        $("#username").val("user" + Math.round((Math.random() * 10000)));
+
+        $("form").submit(function(e) {
+          e.preventDefault(); // prevents page reloading
+          socket.emit("chat message", {
+            username: $("#username").val(),
+            message: $("#m").val(),
+          });
+          $("#m").val("");
+          return false;
+        });
+
+        socket.on("chat message", function(msg) {
+          console.log("message received", Date(), msg);
+          $("#messages").append($("<li>").text(msg.username + ': ' + msg.message));
+        });
+
+        socket.on("connect", function() {
+          console.log("connected", Date());
+
+          $("#status")
+            .text("Connected")
+            .removeClass("disconnected")
+            .addClass("connected");
+        });
+
+        socket.on("disconnect", function() {
+          console.log("disconnected", Date());
+
+          $("#status")
+            .text("Disconnected")
+            .removeClass("connected")
+            .addClass("disconnected");
+        });
+      });
+    </script>
+  </body>
+</html>
