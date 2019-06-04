@@ -4,7 +4,8 @@ var io = require("socket.io")(server, {
   transports: ['websocket'],
   perMessageDeflate: true,
   httpCompression: true,
-  wsEngine: 'ws'
+  wsEngine: 'ws',
+  log: true
 });
 //io.set('transports', ['websocket']);
 
