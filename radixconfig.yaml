@@ -1,7 +1,7 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: radix-example-socketio
+  name: example-socketio-jiha
 spec:
   dnsAppAlias:
     environment: prod
