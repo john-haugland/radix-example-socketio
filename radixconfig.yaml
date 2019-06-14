@@ -20,4 +20,4 @@ spec:
       environmentConfig:
         - environment: prod
           monitoring: true
-          replicas: 2
+          replicas: 4
