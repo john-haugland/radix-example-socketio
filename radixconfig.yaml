@@ -19,4 +19,5 @@ spec:
       public: true
       environmentConfig:
         - environment: prod
+          monitoring: true
           replicas: 2
